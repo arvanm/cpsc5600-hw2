@@ -15,70 +15,18 @@
 #include <iostream>
 #include <string>
 #include <future>
-using namespace std;
 
+#include "heaper.h";
+using namespace std;
 
 const int SEQUENTIAL_CUTOFF = 8;
 const int N = 16;  // FIXME must be power of 2 for now
-typedef vector<int> Data;
 
-class Heaper{
-public:
-	Heaper(const Data *data) : n(data->size()), data(data){
-		interior= new Data(n-1,0);
-	}
-
-	virtual ~Heaper(){
-		delete interior;
-	}
-	
-protected:
-	int n;
-	const Data *data;
-	Data *interior;
-	
-	virtual int size (){
-		return (n-1) + n;
-	}
-	
-	virtual int value(int i){
-		if(i < (n-1))
-			return interior->at(i);
-		else
-			return data->at(i-(n-i));
-	}
-	
-	virtual int parent(int i){
-		return (i-1) / 2;
-	}
-	
-	virtual int left(int i){
-		return (i*2) + 1;
-	}
-	
-	virtual int right(int i){
-		return (i*2) + 2;
-	}
-	
-	virtual bool hasLeft(int i){
-		return left(i) < n;
-	}
-	
-	virtual bool hasRight(int i){
-		return right(i)< n;
-	}
-	virtual bool isLeaf(int i){
-		if (i > n)
-			return false;
-		
-		return true;
-	}
-};
 
 class SumHeap : public Heaper{
 public:
 	SumHeap(const Data *data) : Heaper(data){
-		calcSum(data->at(i));
+		//calcSum(data->at(i));
 	}
 	
 	int sum(int node){
